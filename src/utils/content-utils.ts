@@ -1,15 +1,45 @@
 import { type CollectionEntry, getCollection } from "astro:content";
 import I18nKey from "@i18n/i18nKey";
-import { i18n } from "@i18n/translation";
-import { getCategoryUrl } from "@utils/url-utils.ts";
+import { i18n, isEnglish } from "@i18n/translation";
+import { getCanonicalSlug, getCategoryUrl } from "@utils/url-utils.ts";
 
-// // Retrieve posts and sort them by publication date
-async function getRawSortedPosts() {
+export function isEnglishPost(entry: CollectionEntry<"posts">): boolean {
+	return (
+		isEnglish(entry.data.lang) ||
+		entry.slug.startsWith("en/") ||
+		entry.slug.endsWith("/en")
+	);
+}
+
+// Retrieve posts for a given locale and sort them by publication date.
+// For English ("en"), prefer an English translation with the same canonical slug,
+// and fall back to the Chinese original if no translation exists yet.
+async function getRawSortedPosts(lang?: string) {
 	const allBlogPosts = await getCollection("posts", ({ data }) => {
 		return import.meta.env.PROD ? data.draft !== true : true;
 	});
 
-	const sorted = allBlogPosts.sort((a, b) => {
+	const wantEn = isEnglish(lang);
+	const byCanonicalSlug = new Map<string, CollectionEntry<"posts">>();
+
+	for (const post of allBlogPosts) {
+		const canonical = getCanonicalSlug(post.slug);
+		const postIsEn = isEnglishPost(post);
+
+		if (wantEn) {
+			const existing = byCanonicalSlug.get(canonical);
+			if (!existing || (postIsEn && !isEnglishPost(existing))) {
+				byCanonicalSlug.set(canonical, post);
+			}
+		} else {
+			if (!postIsEn) {
+				byCanonicalSlug.set(canonical, post);
+			}
+		}
+	}
+
+	const filtered = Array.from(byCanonicalSlug.values());
+	const sorted = filtered.sort((a, b) => {
 		const dateA = new Date(a.data.published);
 		const dateB = new Date(b.data.published);
 		return dateA > dateB ? -1 : 1;
@@ -17,15 +47,22 @@ async function getRawSortedPosts() {
 	return sorted;
 }
 
-export async function getSortedPosts() {
-	const sorted = await getRawSortedPosts();
+export async function getSortedPosts(lang?: string) {
+	const rawSorted = await getRawSortedPosts(lang);
+
+	// Clone entry data so prev/next metadata for one locale never mutates another
+	const sorted = rawSorted.map((entry) => ({
+		...entry,
+		render: entry.render.bind(entry),
+		data: { ...entry.data },
+	}));
 
 	for (let i = 1; i < sorted.length; i++) {
-		sorted[i].data.nextSlug = sorted[i - 1].slug;
+		sorted[i].data.nextSlug = getCanonicalSlug(sorted[i - 1].slug);
 		sorted[i].data.nextTitle = sorted[i - 1].data.title;
 	}
 	for (let i = 0; i < sorted.length - 1; i++) {
-		sorted[i].data.prevSlug = sorted[i + 1].slug;
+		sorted[i].data.prevSlug = getCanonicalSlug(sorted[i + 1].slug);
 		sorted[i].data.prevTitle = sorted[i + 1].data.title;
 	}
 
@@ -35,12 +72,14 @@ export type PostForList = {
 	slug: string;
 	data: CollectionEntry<"posts">["data"];
 };
-export async function getSortedPostsList(): Promise<PostForList[]> {
-	const sortedFullPosts = await getRawSortedPosts();
+export async function getSortedPostsList(
+	lang?: string,
+): Promise<PostForList[]> {
+	const sortedFullPosts = await getRawSortedPosts(lang);
 
 	// delete post.body
 	const sortedPostsList = sortedFullPosts.map((post) => ({
-		slug: post.slug,
+		slug: getCanonicalSlug(post.slug),
 		data: post.data,
 	}));
 
@@ -51,10 +90,8 @@ export type Tag = {
 	count: number;
 };
 
-export async function getTagList(): Promise<Tag[]> {
-	const allBlogPosts = await getCollection<"posts">("posts", ({ data }) => {
-		return import.meta.env.PROD ? data.draft !== true : true;
-	});
+export async function getTagList(lang?: string): Promise<Tag[]> {
+	const allBlogPosts = await getRawSortedPosts(lang);
 
 	const countMap: { [key: string]: number } = {};
 	allBlogPosts.forEach((post: { data: { tags: string[] } }) => {
@@ -78,14 +115,12 @@ export type Category = {
 	url: string;
 };
 
-export async function getCategoryList(): Promise<Category[]> {
-	const allBlogPosts = await getCollection<"posts">("posts", ({ data }) => {
-		return import.meta.env.PROD ? data.draft !== true : true;
-	});
+export async function getCategoryList(lang?: string): Promise<Category[]> {
+	const allBlogPosts = await getRawSortedPosts(lang);
 	const count: { [key: string]: number } = {};
 	allBlogPosts.forEach((post: { data: { category: string | null } }) => {
 		if (!post.data.category) {
-			const ucKey = i18n(I18nKey.uncategorized);
+			const ucKey = i18n(I18nKey.uncategorized, lang);
 			count[ucKey] = count[ucKey] ? count[ucKey] + 1 : 1;
 			return;
 		}
@@ -107,7 +142,7 @@ export async function getCategoryList(): Promise<Category[]> {
 		ret.push({
 			name: c,
 			count: count[c],
-			url: getCategoryUrl(c),
+			url: getCategoryUrl(c, lang),
 		});
 	}
 	return ret;

@@ -42,7 +42,23 @@ export function getTranslation(lang: string): Translation {
 	return map[lang.toLowerCase()] || defaultTranslation;
 }
 
-export function i18n(key: I18nKey): string {
-	const lang = siteConfig.lang || "en";
-	return getTranslation(lang)[key];
+export function isEnglish(lang?: string): boolean {
+	return (lang || "").toLowerCase().startsWith("en");
+}
+
+export function normalizeLang(lang?: string): "zh_CN" | "en" {
+	return isEnglish(lang) ? "en" : "zh_CN";
+}
+
+export function getLangFromPathname(pathname: string): "zh_CN" | "en" {
+	const base = (import.meta.env.BASE_URL || "/").replace(/\/+$/, "");
+	const stripped =
+		base && pathname.startsWith(base) ? pathname.slice(base.length) : pathname;
+	const normalized = stripped.startsWith("/") ? stripped : `/${stripped}`;
+	return normalized === "/en" || normalized.startsWith("/en/") ? "en" : "zh_CN";
+}
+
+export function i18n(key: I18nKey, lang?: string): string {
+	const targetLang = lang || siteConfig.lang || "en";
+	return getTranslation(targetLang)[key];
 }

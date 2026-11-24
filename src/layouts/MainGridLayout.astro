@@ -13,6 +13,7 @@ import {
 	BANNER_HEIGHT_EXTEND,
 	MAIN_PANEL_OVERLAPS_BANNER_HEIGHT,
 } from "../constants/constants";
+import { getLangFromPathname } from "@i18n/translation";
 import Layout from "./Layout.astro";
 
 interface Props {
@@ -28,10 +29,12 @@ const {
 	title,
 	banner,
 	description,
-	lang,
+	lang: propLang,
 	setOGTypeArticle,
 	headings = [],
 } = Astro.props;
+const pageLang = getLangFromPathname(Astro.url.pathname);
+const lang = propLang || pageLang;
 const hasBannerCredit =
 	siteConfig.banner.enable && siteConfig.banner.credit.enable;
 const hasBannerLink = !!siteConfig.banner.credit.url;
@@ -47,7 +50,7 @@ const mainPanelTop = siteConfig.banner.enable
 <slot slot="head" name="head"></slot>
 <div id="top-row" class="z-50 pointer-events-none relative transition-all duration-700 max-w-[var(--page-width)] px-0 md:px-4 mx-auto" class:list={[""]}>
     <div id="navbar-wrapper" class="pointer-events-auto sticky top-0 transition-all">
-        <Navbar></Navbar>
+        <Navbar lang={pageLang}></Navbar>
     </div>
 </div>
 
@@ -80,7 +83,7 @@ const mainPanelTop = siteConfig.banner.enable
             </a>}
 
 
-            <SideBar class="mb-4 row-start-2 row-end-3 col-span-2 lg:row-start-1 lg:row-end-2 lg:col-span-1 lg:max-w-[17.5rem] onload-animation" headings={headings}></SideBar>
+            <SideBar class="mb-4 row-start-2 row-end-3 col-span-2 lg:row-start-1 lg:row-end-2 lg:col-span-1 lg:max-w-[17.5rem] onload-animation" headings={headings} lang={pageLang}></SideBar>
 
             <main id="swup-container" class="transition-swup-fade col-span-2 lg:col-span-1 overflow-hidden">
                 <div id="content-wrapper" class="onload-animation">

@@ -29,6 +29,13 @@ export default defineConfig({
 	site: "https://blog.chauyin.com/",
 	base: "/",
 	trailingSlash: "always",
+	i18n: {
+		defaultLocale: "zh-cn",
+		locales: ["zh-cn", "en"],
+		routing: {
+			prefixDefaultLocale: false,
+		},
+	},
 	integrations: [
 		tailwind({
 			nesting: true,
