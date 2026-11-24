@@ -1,4 +1,5 @@
 ---
+
 title: 如何搭建个人影视库
 published: 2026-01-21
 updated: 2026-07-30
@@ -6,7 +7,7 @@ description: '通过 Arr 系列软件和 Jellyfin，搭建个人影视库的全�
 image: ''
 tags: ["NAS", "AIO", "Jellyfin", "Docker", "Arr"]
 category: '影音娱乐'
-draft: false 
+draft: false
 lang: 'zh-cn'
 ---
 
@@ -486,6 +487,7 @@ Bazarr 对中文字幕的自动匹配，对于番剧来说表现一般，很少�
 <div class="text-center">Bazarr 导入后会自动重命名字幕文件，Jellyfin 能正确识别</div>
 
 不过 Bazarr 这个项目引入 AI 的支持，使用 AI 来生成字幕，但我还没有仔细研究过（毕竟 N100 跑大模型...）
+
 ### 字幕源推荐
 
 - [Anime 字幕论坛](https://bbs.acgrip.com/)：几乎可以找到所有番剧的字幕资源。

@@ -1,4 +1,5 @@
 ---
+
 title: How Gitea Actions Runner Pulls Local Actions with Sign-In Required
 published: 2025-10-13
 updated: 2025-10-13
@@ -21,6 +22,7 @@ In private deployments—especially those exposed to the public internet—if yo
 On the other hand, setting `REQUIRE_SIGNIN_VIEW = false` introduces a code-leakage risk, because anonymous visitors can browse your Gitea instance through the Explore page or public API endpoints.
 
 This issue has been discussed upstream on GitHub without a built-in fix yet:
+
 - [Runners cannot fetch custom actions](https://github.com/go-gitea/gitea/issues/27933)
 - [Action runner should be run as a logined user when REQUIRE_SIGNIN_VIEW is true](https://github.com/go-gitea/gitea/issues/28813)
 

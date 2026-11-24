@@ -1,4 +1,5 @@
 ---
+
 title: Configuring an IPv6 EUI-64 Address on macOS
 published: 2025-04-14
 updated: 2025-04-14
@@ -15,6 +16,7 @@ lang: 'en'
 macOS generates IPv6 addresses according to [RFC 7217](https://www.rfc-editor.org/rfc/rfc7217), using privacy-preserving opaque identifiers rather than deriving a fixed suffix directly from the MAC address. Like Android, macOS primarily obtains IPv6 addresses via [SLAAC](https://en.wikipedia.org/wiki/IPv6#Stateless_address_autoconfiguration_(SLAAC)) (Stateless Address Autoconfiguration). Although macOS technically supports [DHCPv6](https://en.wikipedia.org/wiki/DHCPv6), SLAAC is still preferred in most networks (and Android does not support DHCPv6 at all). When using a Mac as a remote server reachable only over public IPv6, configuring an EUI-64 address keeps the IPv6 host suffix fixed, enabling stable and reliable remote access.
 
 While you can use [DDNS-GO](https://github.com/jeessy2/ddns-go) on macOS to bind a dynamic IPv6 address to a domain name, that approach has limitations:
+
 - The address suffix is not fixed (due to RFC 7217), requiring frequent firewall rule adjustments.
 - It depends on the reliability of third-party DDNS services.
 - DNS propagation can introduce delays.
@@ -402,6 +404,7 @@ ifconfig en0 | grep inet6
 ```
 
 You should see two types of non-link-local IPv6 addresses:
+
 1. System-autoconfigured privacy addresses (marked with `autoconf`)
 2. Your newly added EUI-64 address
 
@@ -410,6 +413,7 @@ You should see two types of non-link-local IPv6 addresses:
 ### Address Not Added
 
 If the EUI-64 address does not appear, check the following:
+
 - **Insufficient permissions**: Ensure the script is executed as root.
 - **No IPv6 connectivity**: Verify that your network provides IPv6.
 - **Wrong interface name**: Double-check the interface identifier (e.g., `en0`, `en1`).
@@ -417,6 +421,7 @@ If the EUI-64 address does not appear, check the following:
 ### Service Fails to Start
 
 If the LaunchDaemon fails to run:
+
 - Temporarily point `StandardErrorPath` / `StandardOutPath` to a log file to inspect errors.
 - Confirm Python 3 is installed at `/usr/bin/python3`.
 - Verify the script path and file permissions.

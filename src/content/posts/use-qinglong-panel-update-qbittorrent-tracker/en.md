@@ -1,4 +1,5 @@
 ---
+
 title: Automatically Updating qBittorrent Trackers with Qinglong Panel
 published: 2025-03-31
 updated: 2025-03-31
@@ -15,6 +16,7 @@ lang: 'en'
 In BitTorrent networks, trackers help P2P clients discover other peers sharing the same torrent. Keeping your tracker list up to date can noticeably improve peer discovery and download speeds.
 
 Popular public tracker list sources include:
+
 - [https://cf.trackerslist.com/all.txt](https://cf.trackerslist.com/all.txt)
 - [https://cf.trackerslist.com/best.txt](https://cf.trackerslist.com/best.txt)
 
@@ -47,12 +49,14 @@ docker run -dit -v $PWD/ql/data:/ql/data -p 5700:5700 -e QlBaseUrl="/" -e QlPort
 ```
 
 Once running, open `http://<server-ip>:5700` in your browser to finish initial setup:
+
 1. Set an administrator username and password.
 2. Log in to the Qinglong dashboard.
 
 ### Enable qBittorrent WebUI (Enabled by Default in Docker)
 
 In qBittorrent:
+
 1. Go to **Tools → Options → Web UI**.
 2. Enable **Web User Interface (Remote control)**.
 3. Set a username and password.
@@ -256,11 +260,13 @@ if __name__ == "__main__":
 In Qinglong Panel, open **Environment Variables** and add:
 
 Required variables:
+
 - `QBITTORRENT_URL`: Your qBittorrent WebUI URL (e.g., `http://192.168.1.100:8080`)
 - `QBITTORRENT_USER`: qBittorrent WebUI username
 - `QBITTORRENT_PASSWORD`: qBittorrent WebUI password
 
 Optional variables:
+
 - `QBITTORRENT_tracker_URLS`: Semicolon-separated tracker list URLs (e.g., `https://cf.trackerslist.com/all.txt;https://cf.trackerslist.com/best.txt`)
 - `QBITTORRENT_CUSTOM_trackerS`: Semicolon-separated custom tracker URLs (e.g., `udp://tracker.example1.com:6969;udp://tracker.example2.com:6969`)
 

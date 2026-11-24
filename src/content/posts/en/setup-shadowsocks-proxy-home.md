@@ -1,4 +1,5 @@
 ---
+
 title: Setting Up a Shadowsocks Proxy to Connect Home
 published: 2025-03-23
 updated: 2025-03-23
@@ -32,11 +33,11 @@ Create `config.json`:
 
 ```json
 {
-  "server": "::",
-  "server_port": 8388,
-  "password": "your_strong_password_here",
-  "method": "chacha20-ietf-poly1305",
-  "mode": "tcp_and_udp"
+	"server": "::",
+	"server_port": 8388,
+	"password": "your_strong_password_here",
+	"method": "chacha20-ietf-poly1305",
+	"mode": "tcp_and_udp"
 }
 ```
 

@@ -1,4 +1,5 @@
 ---
+
 title: 使用 qinglong（青龙面板）来定期更新 qBittorrent Tracker
 published: 2025-03-31
 updated: 2025-03-31
@@ -6,7 +7,7 @@ description: '通过 qinglong（青龙面板）自动更新 qBittorrent 的 Trac
 image: ''
 tags: ["qBittorrent", "青龙面板", "qinglong", "自动化", "PT", "BT", "Tracker"]
 category: '自动化工具'
-draft: false 
+draft: false
 lang: 'zh-cn'
 ---
 
@@ -15,6 +16,7 @@ lang: 'zh-cn'
 BitTorrent 网络中，Tracker 帮助 P2P 客户端找到拥有相同种子的其他用户，因此定期更新 Tracker 列表可以获得更好的下载体验。
 
 常用的 Tracker 列表源包括：
+
 - [https://cf.trackerslist.com/all.txt](https://cf.trackerslist.com/all.txt)
 - [https://cf.trackerslist.com/best.txt](https://cf.trackerslist.com/best.txt)
 
@@ -47,12 +49,14 @@ docker run -dit -v $PWD/ql/data:/ql/data -p 5700:5700 -e QlBaseUrl="/" -e QlPort
 ```
 
 安装完成后，通过浏览器访问 `http://服务器IP:5700` 进行初始化配置：
+
 1. 设置管理员用户名和密码
 2. 登录到青龙面板后台
 
 ### 确保 qBittorrent WebUI 已启用 (Docker 版默认启用)
 
 在 qBittorrent 中：
+
 1. 工具 → 设置 → Web UI
 2. 启用 Web 用户界面
 3. 设置用户名和密码
@@ -285,18 +289,18 @@ if __name__ == "__main__":
 
 1. 在青龙面板中，进入【环境变量】
 2. 点击右上角【+】号创建变量，添加以下必要变量：
-   - 变量名：`QBITTORRENT_URL` 
+   - 变量名：`QBITTORRENT_URL`
      值：你的 qBittorrent WebUI 地址（如 `http://192.168.1.100:8080`）
-   - 变量名：`QBITTORRENT_USER` 
+   - 变量名：`QBITTORRENT_USER`
      值：qBittorrent WebUI 的用户名
-   - 变量名：`QBITTORRENT_PASSWORD` 
+   - 变量名：`QBITTORRENT_PASSWORD`
      值：qBittorrent WebUI 的密码
 
 3. 可选环境变量：
-   - 变量名：`QBITTORRENT_tracker_URLS` 
+   - 变量名：`QBITTORRENT_tracker_URLS`
      值：自定义 tracker 列表源，多个用分号分隔
      例如：`https://cf.trackerslist.com/all.txt;https://cf.trackerslist.com/best.txt`
-   - 变量名：`QBITTORRENT_CUSTOM_trackerS` 
+   - 变量名：`QBITTORRENT_CUSTOM_trackerS`
      值：自定义 tracker 地址，多个用分号分隔
      例如：`udp://tracker.example1.com:6969;udp://tracker.example2.com:6969`
 
@@ -322,6 +326,7 @@ if __name__ == "__main__":
 3. 点击【日志】按钮查看运行结果
 
 正常情况下，你会看到类似如下日志：
+
 ```
 ## 开始执行... 2025-03-31 22:37:22
 

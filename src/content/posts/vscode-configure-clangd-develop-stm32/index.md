@@ -1,4 +1,5 @@
 ---
+
 title: VSCode 配置 Clangd 开发 STM32
 published: 2025-03-24
 updated: 2025-10-21
@@ -6,7 +7,7 @@ description: '介绍如何配置 VSCode 和 Clangd 进行 STM32 开发，包含�
 image: ''
 tags: ['STM32', 'VSCode', 'Clangd', 'Embedded', 'STM32CubeMX']
 category: '嵌入式开发'
-draft: false 
+draft: false
 lang: 'zh-cn'
 ---
 
@@ -22,7 +23,7 @@ lang: 'zh-cn'
 > 时代滚滚向前，笔者博客文章具有滞后性，目前拓展已经更新到了 `v3.6.4` 版本，相较于先前，配置更加简单，插件在安装后，会提示安装开发所需的工具链，所以只需要安装一个拓展（即 [STM32 VS Code Extension](https://marketplace.visualstudio.com/items?itemName=STMicroelectronics.stm32-vscode-extension)），按照提示安装工具链后，从 `CubeMX` 生成 `CMake` 项目即可，无需额外配置  
 >   
 > 所以可以基本跳过 [配置步骤](#配置步骤) 章节（不过仍然需要安装 [STM32CubeMX](https://www.st.com/en/development-tools/stm32cubemx.html) 来配置项目），您仍然可以参考 [增强配置](#增强配置) 以提供更好的开发体验  
->  
+>
 > 如果嫌弃 `STM32 VS Code Extension` 安装太多拓展导致 `VSCode` 界面混乱，可以巧用 `VSCode` 的 [配置文件](https://code.visualstudio.com/docs/configure/profiles) 功能
 
 ## 配置步骤
@@ -30,6 +31,7 @@ lang: 'zh-cn'
 ### 1. 基础环境安装
 
 首先，下载并安装所需的基础工具：
+
 - 安装 [Visual Studio Code](https://code.visualstudio.com)，代码编辑器
 - 安装 [LLVM/Clang](https://github.com/llvm/llvm-project/releases)，提供 Clangd 语言服务器
 - 安装 [STM32CubeMX](https://www.st.com/en/development-tools/stm32cubemx.html)，用于生成 STM32 项目代码
@@ -43,12 +45,14 @@ lang: 'zh-cn'
 > Clangd 插件与 [C/C++](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools) 插件冲突，Clangd 需要禁用 C/C++ 插件才能正常工作。
 
 在 VSCode 中，通过扩展市场安装以下必要扩展：
+
 - [clangd](https://marketplace.visualstudio.com/items?itemName=llvm-vs-code-extensions.vscode-clangd) - 提供 C/C++ 代码智能感知
 - [STM32 VS Code Extension](https://marketplace.visualstudio.com/items?itemName=STMicroelectronics.stm32-vscode-extension) - 提供 STM32 开发工具集
 
 ### 3. 配置 STM32 开发环境
 
 安装完了 `STM32 VS Code Extension` 扩展后，需要配置 STM32CubeCLT 路径：
+
 1. 在 VSCode 中，按下 `Ctrl + Shift + P` 打开命令面板
 2. 搜索并选择 `STM32 VS Code Extension: Configure Cube CLT Path` 命令
 3. 找到 `STM32CubeCLT` 并选择，如果 `STM32CubeCLT` 正确安装，VSCode 将自动检测到路径
@@ -126,7 +130,7 @@ IncludeCategories:
     Priority: 2
   - Regex: '\.hpp[>"]$'
     Priority: 5
-  - Regex: '.*'
+  - Regex: ".*"
     Priority: 2
 IndentCaseBlocks: true
 IndentWidth: 4
@@ -152,7 +156,6 @@ StatementMacros:
   - _FMT_P2286_END
   - _EXTERN_C_UNLESS_PURE
   - _END_EXTERN_C_UNLESS_PURE
-
 ```
 
 </details>

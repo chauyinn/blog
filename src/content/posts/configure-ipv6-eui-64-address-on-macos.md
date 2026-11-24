@@ -1,4 +1,5 @@
 ---
+
 title: 在 macOS 上配置 IPv6 EUI-64 地址
 published: 2025-04-14
 updated: 2025-04-14
@@ -6,7 +7,7 @@ description: '通过 Python 脚本在 macOS 上实现 IPv6 EUI-64 地址配置�
 image: ''
 tags: ["macOS", "IPv6", "网络", "EUI-64", "自动化", "Python"]
 category: '系统优化'
-draft: false 
+draft: false
 lang: 'zh-cn'
 ---
 
@@ -15,6 +16,7 @@ lang: 'zh-cn'
 macOS 的 IPv6 地址生成机制基于 [RFC 7217](https://www.rfc-editor.org/rfc/rfc7217)，采用隐私保护方式而非直接使用 MAC 地址创建固定的标识符。与 Android 类似，macOS 主要通过 [SLAAC](https://en.wikipedia.org/wiki/IPv6#Stateless_address_autoconfiguration_(SLAAC))（无状态地址自动配置）获取 IPv6 地址。虽然 macOS 技术上支持 [DHCPv6](https://en.wikipedia.org/wiki/DHCPv6)，但在大多数网络环境中仍优先使用 SLAAC，且值得注意的是 Android 系统完全不支持 DHCPv6。当使用 Mac 作为远程服务器且仅有 IPv6 公网访问时，配置 EUI-64 格式的地址可以使 IPv6 地址后缀保持固定，从而实现稳定可靠的远程访问。
 
 虽然可以在 macOS 上使用 [DDNS-GO](https://github.com/jeessy2/ddns-go) 将动态 IPv6 地址绑定到域名，但这种方法存在局限性：
+
 - 地址后缀不固定（RFC 7217 特性），需要频繁调整防火墙规则
 - 依赖于第三方 DDNS 服务的可靠性
 - 域名解析可能存在延迟
@@ -398,7 +400,7 @@ sudo nano /Library/LaunchDaemons/com.eui64.plist
 
 > [!NOTE]
 > 将上面的 `en0` 替换为你系统中实际的网络接口名称。
-> 
+>
 > 关于日志文件：不保存日志（使用 /dev/null）或选择将日志保存到临时目录（/tmp），避免长期运行导致日志文件过大占用存储空间。
 
 ### 3. 设置权限并加载服务
@@ -436,6 +438,7 @@ ifconfig en0 | grep inet6
 ```
 
 您应该能看到两种类型的非链路本地 IPv6 地址：
+
 1. 系统自动配置的随机地址（带有 `autoconf` 标记）
 2. 添加的 EUI-64 格式地址
 
@@ -444,6 +447,7 @@ ifconfig en0 | grep inet6
 ### 地址未成功添加
 
 如果未看到 EUI-64 地址，可能的原因包括：
+
 - 脚本权限不足：确保以 root 权限运行脚本
 - IPv6 网络不可用：检查你的网络是否支持 IPv6
 - 接口名称错误：验证网络接口名称是否正确
@@ -451,6 +455,7 @@ ifconfig en0 | grep inet6
 ### 服务启动失败
 
 如果服务无法正常启动：
+
 - 检查日志文件（如配置了日志输出）查看错误信息
 - 确认 Python 3 已正确安装
 - 检查脚本路径和权限

@@ -1,4 +1,5 @@
 ---
+
 title: Practical Tailscale Networking Tips
 published: 2026-03-12
 updated: 2026-03-12
@@ -15,6 +16,7 @@ lang: 'en'
 [Tailscale](https://tailscale.com/download) provides installers for all major platforms—simply follow the instructions for your OS.
 
 On Windows, you can install it via `winget`:
+
 ```bash
 winget install Tailscale.Tailscale
 ```
@@ -28,6 +30,7 @@ tailscale up --advertise-routes=192.168.5.0/24 --accept-routes --advertise-exit-
 ```
 
 Flag breakdown:
+
 - `--advertise-routes=192.168.5.0/24`: Advertises your local subnet to the Tailscale tailnet so remote Tailscale devices can reach services in `192.168.5.0/24`.
 - `--accept-routes`: Accepts subnet routes advertised by other nodes. For example, if another node advertises `192.168.100.0/24`, devices in `192.168.5.0/24` can reach `192.168.100.0/24` as well (bidirectional site-to-site access).
 - `--advertise-exit-node`: Advertises this node as an exit node so other devices can route all of their internet traffic through it, similar to a full-tunnel VPN.
@@ -67,6 +70,7 @@ With this setup, devices in `192.168.100.x` can transparently reach devices in `
 ### Checking Connection Status
 
 Check peer connectivity and whether connections are direct (P2P) or relayed (DERP):
+
 ```bash
 tailscale status
 ```

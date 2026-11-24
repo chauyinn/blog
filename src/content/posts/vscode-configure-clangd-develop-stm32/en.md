@@ -1,4 +1,5 @@
 ---
+
 title: Configuring VSCode and Clangd for STM32 Development
 published: 2025-03-24
 updated: 2025-10-21
@@ -16,13 +17,13 @@ Traditional STM32 development typically relies on IDEs like MDK-ARM or IAR. Whil
 
 > [!NOTE]
 > **Updated 2025-10-21**  
->  
+>
 > This article was originally written during `v1.0` of the [STM32 VS Code Extension](https://marketplace.visualstudio.com/items?itemName=STMicroelectronics.stm32-vscode-extension).  
->  
+>
 > As of `v3.6.4`, setup is much simpler: after installing the [STM32 VS Code Extension](https://marketplace.visualstudio.com/items?itemName=STMicroelectronics.stm32-vscode-extension), it automatically prompts you to install the required toolchain. Simply generate a `CMake` project from `STM32CubeMX` and open it—no manual toolchain wiring needed.  
->  
+>
 > You can largely skip the [Setup Steps](#setup-steps) section (though you still need [STM32CubeMX](https://www.st.com/en/development-tools/stm32cubemx.html) to generate projects), and jump straight to [Enhancements](#enhancements) for formatting, linting, and CMake tweaks.  
->  
+>
 > If you don't want the STM32 extension's bundled plugins cluttering your everyday VSCode setup, consider using VSCode [Profiles](https://code.visualstudio.com/docs/configure/profiles).
 
 ## Setup Steps
@@ -30,6 +31,7 @@ Traditional STM32 development typically relies on IDEs like MDK-ARM or IAR. Whil
 ### 1. Install Base Tools
 
 Download and install the required tools:
+
 - [Visual Studio Code](https://code.visualstudio.com)
 - [LLVM/Clang](https://github.com/llvm/llvm-project/releases) (provides the `clangd` language server)
 - [STM32CubeMX](https://www.st.com/en/development-tools/stm32cubemx.html) (generates STM32 initialization code)
@@ -43,6 +45,7 @@ Make sure `LLVM`, `CMake`, `arm-none-eabi-gcc`, and `Ninja` are in your system `
 > The Clangd extension conflicts with Microsoft's [C/C++](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools) extension—disable the C/C++ extension so Clangd can work properly.
 
 Install these extensions from the VSCode Marketplace:
+
 - [clangd](https://marketplace.visualstudio.com/items?itemName=llvm-vs-code-extensions.vscode-clangd) — C/C++ IntelliSense and diagnostics
 - [STM32 VS Code Extension](https://marketplace.visualstudio.com/items?itemName=STMicroelectronics.stm32-vscode-extension) — STM32 build and debug integration
 
@@ -123,7 +126,7 @@ IncludeCategories:
     Priority: 2
   - Regex: '\.hpp[>"]$'
     Priority: 5
-  - Regex: '.*'
+  - Regex: ".*"
     Priority: 2
 IndentCaseBlocks: true
 IndentWidth: 4
@@ -149,7 +152,6 @@ StatementMacros:
   - _FMT_P2286_END
   - _EXTERN_C_UNLESS_PURE
   - _END_EXTERN_C_UNLESS_PURE
-
 ```
 
 </details>

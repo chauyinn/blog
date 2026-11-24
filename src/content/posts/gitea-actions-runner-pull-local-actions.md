@@ -1,4 +1,5 @@
 ---
+
 title: Gitea Actions Runner 在开启登录限制时如何拉取本地 Actions
 published: 2025-10-13
 updated: 2025-10-13
@@ -21,9 +22,9 @@ lang: 'zh-cn'
 如果你将 `REQUIRE_SIGNIN_VIEW` 设置为 `false`，这会带来数据代码泄露的安全隐患，因为任何人都可以通过页面上的 “探索” 按钮访问你的 Gitea 代码库。
 
 这个问题官方在 GitHub 上也有做讨论，但目前还没有一个很好的解决方案，相关 issue 地址为：
+
 - [Runners cannot fetch custom actions](https://github.com/go-gitea/gitea/issues/27933)
 - [Action runner should be run as a logined user when REQUIRE_SIGNIN_VIEW is true](https://github.com/go-gitea/gitea/issues/28813)
-
 
 ## 有几种不算特别完美的解决方案
 
@@ -114,4 +115,3 @@ container:
 - 可以创建另外一个 Gitea 实例，里面只存放 Actions 相关的镜像，不涉及其他代码，这也算是一个变通方案
 
 **如果有发现更好的解决思路，欢迎邮箱交流**
-

@@ -1,4 +1,5 @@
 ---
+
 title: 一些 Tailscale 组网使用技巧
 published: 2026-03-12
 updated: 2026-03-12
@@ -6,7 +7,7 @@ description: '快看，是 Tailscale，它能让你轻松组网，不受网络�
 image: ''
 tags: ["Tailscale", "网络", "组网", "VPN"]
 category: '网络工具'
-draft: false 
+draft: false
 lang: 'zh-cn'
 ---
 
@@ -15,6 +16,7 @@ lang: 'zh-cn'
 [Tailscale](https://tailscale.com/download) 提供了多平台的安装包，按照提示安装即可。
 
 如果是 Windows 用户，可以使用 winget 安装：
+
 ```bash
 winget install Tailscale.Tailscale
 ```
@@ -28,6 +30,7 @@ tailscale up --advertise-routes=192.168.5.0/24 --accept-routes --advertise-exit-
 ```
 
 语句说明：
+
 - `--advertise-routes=192.168.5.0/24`：将局域网的路由广告给 Tailscale 网络，让其他设备可以访问到局域网中的设备。意思是当外网通过 Tailscale 组网后，可以访问 `192.168.5.0/24` 网段中的服务。
 - `--accept-routes`：接受其他设备的子网路由，这样就可以访问到其他设备的局域网中的服务。比如另外一个 Tailscale 设备也广告了它所在局域网的路由（如 `192.168.100.0/24`），那么可以在 `192.168.5.0/24` 的设备里访问到 `192.168.100.0/24` 局域网服务（实现互相访问）。
 - `--advertise-exit-node`：将此设备作为出口节点，允许其他设备通过此设备访问外部网络。不仅可以访问局域网中的设备，还可以通过此设备访问互联网，即所有流量都走此设备出口网络，类似全局代理的效果。
@@ -69,6 +72,7 @@ iptables -t nat -A POSTROUTING -o tailscale0 -j MASQUERADE
 ### 检查连接情况
 
 可以通过以下命令检查连接情况：
+
 ```bash
 tailscale status
 ```

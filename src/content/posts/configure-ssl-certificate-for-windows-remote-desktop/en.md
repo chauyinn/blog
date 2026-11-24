@@ -1,4 +1,5 @@
 ---
+
 title: Configuring an SSL Certificate for Windows Remote Desktop
 published: 2025-03-23
 updated: 2025-03-23
@@ -50,6 +51,7 @@ Check the [supported DNS validation plugins](https://www.win-acme.com/reference/
 - Obtain the required API credentials (such as an API token)
 
 Using Cloudflare as an example:
+
 1. Log in to the Cloudflare dashboard and create an API Token with DNS edit permissions.
 2. Download the Cloudflare validation plugin from the [win-acme Releases page](https://github.com/win-acme/win-acme/releases/).
 3. Extract the plugin into the `win-acme` directory following the [Cloudflare plugin documentation](https://www.win-acme.com/reference/plugins/validation/dns/cloudflare).
@@ -60,6 +62,7 @@ Using Cloudflare as an example:
 Save the script below as `CustomImportRDS.ps1` inside the `Scripts` folder under your `win-acme` directory.
 
 This script is adapted from win-acme's `ImportRDS.ps1` and handles:
+
 - Locating the certificate in the Windows certificate store
 - Updating the RDP listener registry key to use the new certificate
 - Granting `NETWORK SERVICE` read permission on the certificate's private key
@@ -207,6 +210,7 @@ Open Command Prompt or PowerShell **as Administrator**, navigate to the `win-acm
 ```
 
 Parameter breakdown:
+
 - `--source manual`: Manually specify the domain name.
 - `--host YOUR_DOMAIN`: Replace with your actual domain.
 - `--validation cloudflare`: DNS validation provider (change if using another provider).
@@ -217,6 +221,7 @@ Parameter breakdown:
 - `--scriptparameters "{CertThumbprint}"`: Passes the certificate thumbprint to the script.
 
 On the first run, win-acme will prompt you to accept the Let's Encrypt terms and enter an email address. Once completed, win-acme will:
+
 1. Create a temporary DNS TXT record to validate domain ownership and issue the Let's Encrypt certificate.
 2. Import the certificate into the Windows certificate store.
 3. Run the script to bind the certificate to Remote Desktop Services.
@@ -246,6 +251,7 @@ On the first run, win-acme will prompt you to accept the Let's Encrypt terms and
 win-acme creates a Windows Scheduled Task that automatically renews the certificate before it expires.
 
 To inspect the renewal task:
+
 1. Open Task Scheduler (`Win + R` → `taskschd.msc`).
 2. Look under **Task Scheduler Library** for `win-acme renew`.
 3. Inspect its schedule and execution history.
@@ -253,6 +259,7 @@ To inspect the renewal task:
 ## Troubleshooting
 
 If certificate issuance fails, check:
+
 - **DNS validation failure**: Verify your API token permissions and DNS provider settings.
 - **Network connectivity**: Ensure the server can reach the Let's Encrypt API.
 - **Rate limits**: Let's Encrypt enforces strict rate limits; repeated failed attempts in a short window may be temporarily throttled.

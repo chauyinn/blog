@@ -1,4 +1,5 @@
 ---
+
 title: 为 Windows 远程桌面配置 SSL 证书
 published: 2025-03-23
 updated: 2025-03-23
@@ -6,7 +7,7 @@ description: '通过 win-acme，实现 Windows 远程桌面自动化配置 SSL �
 image: ''
 tags: ["Windows", "远程桌面", "RDP", "SSL 证书", "安全", "win-acme"]
 category: '系统优化'
-draft: false 
+draft: false
 lang: 'zh-cn'
 ---
 
@@ -50,6 +51,7 @@ lang: 'zh-cn'
 - 获取必要的 API 凭据（如 API 密钥或 Token）
 
 以 Cloudflare 为例：
+
 1. 登录 Cloudflare 控制面板生成 API 令牌
 2. 在 [win-acme 发布页面](https://github.com/win-acme/win-acme/releases/) 下载 cloudflare 验证插件
 3. 按照 [Cloudflare 插件说明](https://www.win-acme.com/reference/plugins/validation/dns/cloudflare)，将插件放在 `win-acme` 目录下
@@ -60,6 +62,7 @@ lang: 'zh-cn'
 将下面的脚本保存为 `CustomImportRDS.ps1`，放在 `win-acme` 目录下的 Scripts 文件夹中。
 
 这个脚本基于 win-acme 的原始 `ImportRDS.ps1` 脚本修改而来，主要功能是：
+
 - 将证书导入到 Windows 证书存储
 - 配置远程桌面服务使用该证书
 - 为证书私钥添加必要的权限
@@ -207,6 +210,7 @@ Write-Log "Script completed"
 ```
 
 命令参数说明：
+
 - `--source manual`：手动指定域名
 - `--host YOUR_DOMAIN`：替换为你的实际域名
 - `--validation cloudflare`：DNS 验证提供商，根据你的实际情况替换
@@ -217,6 +221,7 @@ Write-Log "Script completed"
 - `--scriptparameters "{CertThumbprint}"`：传递证书指纹参数
 
 如果初次运行命令，win-acme 会提示阅读 `letsencrypt` 的文档，并需要输入一些信息，例如邮箱，如果一切正常，win-acme 将会：
+
 1. 尝试往你的域名供应商写入 TXT 记录，用以证明对该域名的所有权，验证通过后，win-acme 申请 Let's Encrypt 证书
 2. 将证书安装到系统证书存储
 3. 通过脚本配置远程桌面服务使用该证书
@@ -246,6 +251,7 @@ Write-Log "Script completed"
 win-acme 会在 Windows 计划任务中创建一个定期运行的任务，确保在证书过期前自动续期。
 
 查看自动更新任务：
+
 1. 打开任务计划程序（按 `Win + R`，输入 `taskschd.msc`）
 2. 在左侧导航栏中，找到 "任务计划程序库" > "win-acme renew"
 3. 查看证书续期任务的详细信息和计划
@@ -253,6 +259,7 @@ win-acme 会在 Windows 计划任务中创建一个定期运行的任务，确�
 ## 证书申请失败
 
 如果证书申请失败，可能的原因包括：
+
 - DNS 验证失败：检查 API 令牌权限和 DNS 提供商设置
 - 网络连接问题：确保服务器可以访问 Let's Encrypt API
 - 请求频率限制：Let's Encrypt 有严格的速率限制，短时间内多次失败请求可能触发限制
