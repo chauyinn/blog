@@ -6,15 +6,11 @@ import I18nKey from "@i18n/i18nKey";
 import { i18n } from "@i18n/translation";
 import MainGridLayout from "@layouts/MainGridLayout.astro";
 import { getSortedPosts, isEnglishPost } from "@utils/content-utils";
-import {
-	getCanonicalSlug,
-	getDir,
-	getPostUrlBySlug,
-} from "@utils/url-utils";
+import { getCanonicalSlug, getDir, getPostUrlBySlug } from "@utils/url-utils";
 import { Icon } from "astro-icon/components";
-import { licenseConfig, profileConfig } from "../../../config";
 import ImageWrapper from "../../../components/misc/ImageWrapper.astro";
 import PostMetadata from "../../../components/PostMeta.astro";
+import { licenseConfig, profileConfig } from "../../../config";
 import { formatDateToYYYYMMDD } from "../../../utils/date-utils";
 
 export async function getStaticPaths() {

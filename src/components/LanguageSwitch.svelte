@@ -24,9 +24,7 @@ function switchLanguage(targetLang: "zh_CN" | "en") {
 		relative = relative.slice(3);
 	}
 	const nextPath =
-		targetLang === "en"
-			? `/en${relative === "/" ? "/" : relative}`
-			: relative;
+		targetLang === "en" ? `/en${relative === "/" ? "/" : relative}` : relative;
 	window.location.href =
 		nextPath + window.location.search + window.location.hash;
 }

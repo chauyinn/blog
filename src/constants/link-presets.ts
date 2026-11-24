@@ -3,9 +3,9 @@ import { i18n } from "@i18n/translation";
 import { localizePath } from "@utils/url-utils";
 import { LinkPreset, type NavBarLink } from "@/types/config";
 
-export function getLinkPresets(
-	lang?: string,
-): { [key in LinkPreset]: NavBarLink } {
+export function getLinkPresets(lang?: string): {
+	[key in LinkPreset]: NavBarLink;
+} {
 	return {
 		[LinkPreset.Home]: {
 			name: i18n(I18nKey.home, lang),
