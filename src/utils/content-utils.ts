@@ -1,14 +1,25 @@
 import { type CollectionEntry, getCollection } from "astro:content";
+import path from "node:path";
 import I18nKey from "@i18n/i18nKey";
 import { i18n, isEnglish } from "@i18n/translation";
-import { getCanonicalSlug, getCategoryUrl } from "@utils/url-utils.ts";
+import { getCanonicalSlug, getCategoryUrl, getDir } from "@utils/url-utils.ts";
 
 export function isEnglishPost(entry: CollectionEntry<"posts">): boolean {
 	return (
 		isEnglish(entry.data.lang) ||
-		entry.slug.startsWith("en/") ||
-		entry.slug.endsWith("/en")
+		entry.id.startsWith("en/") ||
+		entry.id.endsWith("/en")
 	);
+}
+
+export function getPostBasePath(entry: CollectionEntry<"posts">): string {
+	if (entry.filePath) {
+		return path
+			.dirname(entry.filePath)
+			.replace(/\\/g, "/")
+			.replace(/^src\//, "");
+	}
+	return path.join("content/posts/", getDir(entry.id));
 }
 
 // Retrieve posts for a given locale and sort them by publication date.
@@ -23,7 +34,7 @@ async function getRawSortedPosts(lang?: string) {
 	const byCanonicalSlug = new Map<string, CollectionEntry<"posts">>();
 
 	for (const post of allBlogPosts) {
-		const canonical = getCanonicalSlug(post.slug);
+		const canonical = getCanonicalSlug(post.id);
 		const postIsEn = isEnglishPost(post);
 
 		if (wantEn) {
@@ -53,16 +64,15 @@ export async function getSortedPosts(lang?: string) {
 	// Clone entry data so prev/next metadata for one locale never mutates another
 	const sorted = rawSorted.map((entry) => ({
 		...entry,
-		render: entry.render.bind(entry),
 		data: { ...entry.data },
 	}));
 
 	for (let i = 1; i < sorted.length; i++) {
-		sorted[i].data.nextSlug = getCanonicalSlug(sorted[i - 1].slug);
+		sorted[i].data.nextSlug = getCanonicalSlug(sorted[i - 1].id);
 		sorted[i].data.nextTitle = sorted[i - 1].data.title;
 	}
 	for (let i = 0; i < sorted.length - 1; i++) {
-		sorted[i].data.prevSlug = getCanonicalSlug(sorted[i + 1].slug);
+		sorted[i].data.prevSlug = getCanonicalSlug(sorted[i + 1].id);
 		sorted[i].data.prevTitle = sorted[i + 1].data.title;
 	}
 
@@ -79,7 +89,7 @@ export async function getSortedPostsList(
 
 	// delete post.body
 	const sortedPostsList = sortedFullPosts.map((post) => ({
-		slug: getCanonicalSlug(post.slug),
+		slug: getCanonicalSlug(post.id),
 		data: post.data,
 	}));
 

@@ -59,14 +59,14 @@ function hidePanel() {
     <div id="lang-panel" class="hidden lg:block absolute transition float-panel-closed top-11 -right-2 pt-5">
         <div class="card-base float-panel p-2">
             <button
-                class="flex transition whitespace-nowrap items-center !justify-start w-full btn-plain scale-animation rounded-lg h-9 px-3 font-medium active:scale-95 mb-0.5"
+                class="flex transition whitespace-nowrap items-center justify-start! w-full btn-plain scale-animation rounded-lg h-9 px-3 font-medium active:scale-95 mb-0.5"
                 class:current-theme-btn={currentLang === "zh_CN"}
                 onclick={() => switchLanguage("zh_CN")}
             >
                 简体中文
             </button>
             <button
-                class="flex transition whitespace-nowrap items-center !justify-start w-full btn-plain scale-animation rounded-lg h-9 px-3 font-medium active:scale-95"
+                class="flex transition whitespace-nowrap items-center justify-start! w-full btn-plain scale-animation rounded-lg h-9 px-3 font-medium active:scale-95"
                 class:current-theme-btn={currentLang === "en"}
                 onclick={() => switchLanguage("en")}
             >
